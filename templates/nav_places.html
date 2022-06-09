@@ -1,4 +1,9 @@
 <nav>
+    <form>
+        <input type="text" placeholder="Find place.." name="add_place">
+        <button type="submit">Find</button>
+    </form>
+
     <ul>
         {% for place in places %}
             <li>{{ place.place_name }}</li>
