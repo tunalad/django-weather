@@ -5,7 +5,27 @@
 
 {% block body %}
     {% include 'nav_places.html' %}
+    <div id="current_content">
+        <h1>Current forecast</h1>
+        <p>ICON</p>
+        <p>21°</p>
+        <p>Description</p>
+        <p>Detailed description</p>
+    </div>
+
+    <!-- HOURLY -->
     <div>
-        content
+        <h1>Hourly forecast</h1>
+        <div class="list_container">
+            <ul class="forecast_list">
+                {% for i in  dummies %}
+                    <li>
+                        <p>00:00</p>
+                        <p>icon</p>
+                        <p>{{ i }}°</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
 {% endblock %}

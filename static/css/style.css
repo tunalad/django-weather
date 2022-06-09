@@ -1,7 +1,48 @@
 nav {
-    background-color: darkslateblue;
+    position: fixed;
+    width: 20rem;
+    height: 98%;
+    background-color: cornflowerblue;
+}
+
+nav form {
+    padding: 2rem;
+    text-align: center;
 }
 
 div {
+    padding: 10px;
+    margin-left: 20rem;
     background-color: indianred;
+}
+
+h1{
+    text-align: center;
+}
+
+#current_content{
+    text-align: center;
+    padding: 15px;
+}
+
+.list_container{
+    display: flex;
+    justify-content: center;
+    margin: 0;
+}
+
+.forecast_list {
+    list-style-type: none;
+    overflow: hidden;
+    display: flex;
+    text-align: center;
+    overflow-x: auto;
+    max-width: 30rem;
+    background-color: rgb(10, 172, 142);
+}
+
+.forecast_list li{
+    padding: 10px;
+    float: left;
+    transform: translateX(-1em);
 }

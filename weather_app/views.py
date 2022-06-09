@@ -11,5 +11,12 @@ def index(request):
 
 def nav_places(request):
     p = Place.objects.all()
-    print(p)
-    return render(request, 'index.html', {'places': p})
+    dumms = dummy_items()
+    return render(request, 'index.html', {'places': p, 'dummies': dumms})
+
+
+def dummy_items():
+    dummies = []
+    for i in range(15):
+        dummies.append(i)
+    return dummies
