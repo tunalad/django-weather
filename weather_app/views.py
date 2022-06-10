@@ -1,12 +1,17 @@
+from django.db import IntegrityError
 from django.http import HttpResponse, Http404
 from django.shortcuts import render
+
 from .utils import accuweather_handling as awh
 
 # Create your views here.
 from weather_app.models import Place
+from .forms import FormPlace
 
-API_KEY = "f99EIdRXeca8kvZOMOuxKzeApNimk3KE"
+API_KEY = "wjIvZkV4FmGKFoW6Zi1BrJzbyufPurjO"
 
+
+# VIEWS
 
 def index(request):
     return render(request, 'index.html')
@@ -16,20 +21,60 @@ def nav_places(request):
     p = Place.objects.all()
     dumms = dummy_items()
 
-    place_key = awh.get_key(API_KEY, "Belgrade")
-    data_current = get_data_current(place_key)
-    data_daily = get_data_daily(place_key)
-    data_hourly = get_data_hourly(place_key)
+    place = Place()
+    form = FormPlace
+
+    if request.method == 'POST':
+        form = FormPlace(request.POST)
+        print("POSTING MOMENT")
+        print(form.is_valid())
+        if form.is_valid():
+            post_place(form, place)
+
+    # UNCOMMENT LATER
+    #place_key = awh.get_key(API_KEY, "Belgrade")
+
+    #data_current = get_data_current(place_key)
+    #data_daily = get_data_daily(place_key)
+    #data_hourly = get_data_hourly(place_key)
+
+    data_current = {}
+    data_daily = {}
+    data_hourly = {}
 
     return render(
         request, 'index.html', {
             'places': p,
             'dummies': dumms,
+            'form': form,
+
             'data_current': data_current,
             'data_daily': data_daily,
             'data_hourly': data_hourly
         }
     )
+
+
+def place_form(request):
+    place = Place()
+    form = FormPlace
+
+    if request.method == 'POST':
+        form = FormPlace(request.POST)
+        if form.is_valid():
+            post_place(form, place)
+    return render(request, 'form.html', {'form': form})
+
+
+# FUNCTIONS
+def post_place(form, place):
+    place.place_name = form.cleaned_data['place_name']
+    place.place_key = awh.get_key(API_KEY, form.cleaned_data['place_name'])
+    try:
+        print(place.place_key)
+        place.save()
+    except IntegrityError as e:
+        print(f"Posting result: {place.place_name} ({place.place_key}) | {e}")
 
 
 def get_data_current(place_key):

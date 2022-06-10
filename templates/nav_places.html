@@ -1,7 +1,8 @@
 <nav>
     <h1>Places list</h1>
-    <form>
-        <input type="text" placeholder="Find place.." name="add_place">
+    <form method="post" action="">
+        {% csrf_token %}
+        {{ form }}
         <button type="submit">Find</button>
     </form>
 
