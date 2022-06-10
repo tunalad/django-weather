@@ -7,15 +7,18 @@
     {% include 'nav_places.html' %}
     <div id="current_content">
         <h1>Current forecast</h1>
+        <h3>{{ place_key }}</h3>
         <p>ICON</p>
-        <p>21°</p>
+        <img src="https://developer.accuweather.com/sites/default/files/01-s.png">
+        <p style="font-size: 50px">21°</p>
+        <p>2°/22°</p>
         <p>Description</p>
         <p>Detailed description</p>
     </div>
 
     <!-- HOURLY -->
     <div>
-        <h1>Hourly forecast</h1>
+        <h2 style="text-align: center">Hourly forecast</h2>
         <div class="list_container">
             <ul class="forecast_list">
                 {% for i in  dummies %}

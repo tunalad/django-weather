@@ -37,7 +37,7 @@ h1{
     display: flex;
     text-align: center;
     overflow-x: auto;
-    max-width: 30rem;
+    /*max-width: 30rem;*/
     background-color: rgb(10, 172, 142);
 }
 
