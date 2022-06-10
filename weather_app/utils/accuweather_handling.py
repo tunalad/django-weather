@@ -79,16 +79,20 @@ def crt_text(item_current):
     return item_current.json()[0]["WeatherText"]
 
 
+def crt_icon(item_current):
+    return item_current.json()[0]["WeatherIcon"]
+
+
 def hrs_temp(item_hourly, i):
-    return item_hourly.json()[int(i)]["Temperature"]["Value"]
+    return item_hourly.json()[i]["Temperature"]["Value"]
 
 
 def hrs_time(item_hourly, i):
-    return str(item_hourly.json()[int(i)]["DateTime"])[11:-9]
+    return str(item_hourly.json()[i]["DateTime"])[11:-9]
 
 
 def hrs_icon(item_hourly, i):
-    return str(item_hourly.json()[int(i)]["WeatherIcon"])
+    return str(item_hourly.json()[i]["WeatherIcon"])
 
 
 def day_date(item_daily, i):
