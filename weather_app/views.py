@@ -1,6 +1,8 @@
 from django.db import IntegrityError
-from django.http import HttpResponse, Http404
+from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render
+from django.urls import reverse, reverse_lazy
+from django.views.generic import DeleteView
 
 from .utils import accuweather_handling as awh
 
@@ -9,6 +11,10 @@ from weather_app.models import Place
 from .forms import FormPlace
 
 API_KEY = "wjIvZkV4FmGKFoW6Zi1BrJzbyufPurjO"
+
+
+# TODO: make clicking on places functional
+# TODO: design
 
 
 # VIEWS
@@ -31,12 +37,12 @@ def nav_places(request):
         if form.is_valid():
             post_place(form, place)
 
-    # UNCOMMENT LATER
-    #place_key = awh.get_key(API_KEY, "Belgrade")
+    # TODO: uncomment the data gathering functionality
+    # place_key = awh.get_key(API_KEY, "Belgrade")
 
-    #data_current = get_data_current(place_key)
-    #data_daily = get_data_daily(place_key)
-    #data_hourly = get_data_hourly(place_key)
+    # data_current = get_data_current(place_key)
+    # data_daily = get_data_daily(place_key)
+    # data_hourly = get_data_hourly(place_key)
 
     data_current = {}
     data_daily = {}
@@ -55,16 +61,19 @@ def nav_places(request):
     )
 
 
-def place_form(request):
-    place = Place()
-    form = FormPlace
+def place_delete(request, id):
+    try:
+        place = Place.objects.get(pk=id)
+        place.delete()
+        return HttpResponseRedirect(reverse('weather_app:index'))
+    except:
+        raise Http404("Place doesn't exist in the database")
 
-    if request.method == 'POST':
-        form = FormPlace(request.POST)
-        if form.is_valid():
-            post_place(form, place)
-    return render(request, 'form.html', {'form': form})
 
+class PlaceDeleteView(DeleteView):
+    model = Place
+    template_name = 'delete.html'
+    success_url = reverse_lazy('weather_app:index')
 
 # FUNCTIONS
 def post_place(form, place):
