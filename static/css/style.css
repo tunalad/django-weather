@@ -1,8 +1,5 @@
-nav {
-    position: fixed;
-    width: 20rem;
-    height: 98%;
-    background-color: cornflowerblue;
+body {
+    background-color: #eaeaea;
 }
 
 nav form {
@@ -12,17 +9,52 @@ nav form {
 
 div {
     padding: 10px;
-    margin-left: 20rem;
-    background-color: indianred;
+    margin-left: 22rem;
+    margin-right: 1rem;
+    background-color: white;
 }
 
 h1{
     text-align: center;
+    padding-top: 3rem;
 }
 
 #current_content{
     text-align: center;
     padding: 15px;
+}
+
+.nav_main {
+    margin: 1rem;
+    background-color: #58a2f1;
+}
+.nav_main ul{
+    list-style-type: none;
+    display: inline-flex;
+    margin: 0;
+}
+
+.nav_main ul li{
+    horiz-align: center;
+}
+
+.nav_places {
+    margin-left: 1rem;
+    margin-right: 1rem;
+    position: fixed;
+    width: 20rem;
+    height: 98%;
+    background-color: #58a2f1;
+}
+
+.places_list{
+    list-style-type: none;
+}
+
+.places_list li{
+    padding-top: 2px;
+    padding-bottom: 2px;
+    margin-left: -20px;
 }
 
 .list_container{

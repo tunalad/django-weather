@@ -1,16 +1,21 @@
-<nav>
+<nav class="rounded border-primary nav_places border-dark">
     <h1>Places list</h1>
     <form method="post" action="">
         {% csrf_token %}
         {{ form }}
-        <button type="submit">Find</button>
+        <br><br>
+        <button type="submit" class="btn btn-light">Find</button>
     </form>
 
-    <ul>
+    <ul class="places_list">
         {% for place in places %}
             <li>
-                <a href="{% url 'weather_app:delete' place.id %}" role="button">🗑️</a>
-                <a href="{% url 'weather_app:place' place.id%}">{{ place.place_name }}</a>
+                <a href="{% url 'weather_app:delete' place.id %}"
+                   role="button"
+                   class="btn btn-outline-danger">🗑️</a>
+                <a href="{% url 'weather_app:place' place.id%}"
+                   class="btn btn-outline-primary text-light">
+                    {{ place.place_name }}</a>
 
                 {% comment %}
                 <a href="{% url 'weather_app:place' place.id%}">{{ place.place_name }}</a>

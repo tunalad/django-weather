@@ -10,11 +10,11 @@ from .utils import accuweather_handling as awh
 from weather_app.models import Place
 from .forms import FormPlace
 
-API_KEY = "wjIvZkV4FmGKFoW6Zi1BrJzbyufPurjO"
+API_KEY = "dIQZvwuqbI9sE6y3O3k6ukIatkA7G6Vu"
 
 
+# TODO: COLORS, THEY ARE HIDEOUS DUUUDE
 # TODO: ask user for API key?
-# TODO: design
 
 
 # VIEWS
@@ -28,27 +28,27 @@ def index(request):
 
 
 def place_data(request, _id):
-    try:
-        place_id = Place.objects.get(pk=_id)
+    #try:
+    place_id = Place.objects.get(pk=_id)
 
-        place_key = awh.get_key(API_KEY, place_id.place_name)
+    place_key = awh.get_key(API_KEY, place_id.place_name)
 
-        data_current = get_data_current(place_key)
-        data_daily = get_data_daily(place_key)
-        data_hourly = get_data_hourly(place_key)
+    data_current = get_data_current(place_key)
+    data_daily = get_data_daily(place_key)
+    data_hourly = get_data_hourly(place_key)
 
-        return render(
-            request, 'place.html', {
-                'place': place_id,
-                'places': nav_sidebar_list(),
-                'form': nav_sidebar_form(request),
+    return render(
+        request, 'place.html', {
+                            'place': place_id,
+                            'places': nav_sidebar_list(),
+                            'form': nav_sidebar_form(request),
 
-                'data_current': data_current,
-                'data_daily': data_daily,
-                'data_hourly': data_hourly,
-            })
-    except:
-        raise Http404("Place doesn't exist in the database")
+                            'data_current': data_current,
+                            'data_daily': data_daily,
+                            'data_hourly': data_hourly,
+                               })
+    #except:
+    #    raise Http404("Place doesn't exist in the database")
 
 
 def place_delete(request, _id):

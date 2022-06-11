@@ -1,8 +1,11 @@
 {% extends 'base.html' %}
 
 {% block body %}
-    <form method="post">{% csrf_token %}
-        <p>Are you sure you want to delete "{{ place.place_name }}"?</p>
-        <button type="submit">DELETE</button>
-    </form>
+    <div style="margin: 0 auto; width: fit-content"  class="rounded">
+        <form method="post" id="current_content">
+            {% csrf_token %}
+            <p>Are you sure you want to delete "<b>{{ place.place_name }}</b>"?</p>
+            <button type="submit" class="btn btn-outline-danger">DELETE</button>
+        </form>
+    </div>
 {% endblock %}
