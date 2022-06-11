@@ -10,7 +10,11 @@
         {% for place in places %}
             <li>
                 <a href="{% url 'weather_app:delete' place.id %}" role="button">🗑️</a>
-                <a href="#">{{ place.place_name }}</a>
+                <a href="{% url 'weather_app:place' place.id%}">{{ place.place_name }}</a>
+
+                {% comment %}
+                <a href="{% url 'weather_app:place' place.id%}">{{ place.place_name }}</a>
+                {% endcomment %}
             </li>
         {% endfor %}
     </ul>

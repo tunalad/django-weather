@@ -8,55 +8,7 @@
 
     <div id="current_content">
         <h1>Current forecast</h1>
-
-        {% if data_current.crt_icon|length > 1 %}
-            <img src="https://developer.accuweather.com/sites/default/files/{{ data_current.crt_icon }}-s.png">
-        {% else %}
-            <img src="https://developer.accuweather.com/sites/default/files/0{{ data_current.crt_icon }}-s.png">
-        {% endif %}
-
-        <p style="font-size: 50px">{{ data_current.crt_temp }}°</p>
-        <p>{{ data_current.crt_max }}°/{{ data_current.crt_min }}°</p>
-        <p>{{ data_current.crt_text }}</p>
-    </div>
-
-    <!-- HOURLY -->
-    <div>
-        <h2 style="text-align: center">Hourly forecast</h2>
-        <div class="list_container">
-            <ul class="forecast_list">
-                {% for i in data_hourly %}
-                    <li>
-                        <p>{{ i.hrs_time }}</p>
-                        {% if i.hrs_icon|length > 1 %}
-                            <img src="https://developer.accuweather.com/sites/default/files/{{ i.hrs_icon }}-s.png">
-                        {% else %}
-                            <img src="https://developer.accuweather.com/sites/default/files/0{{ i.hrs_icon }}-s.png">
-                        {% endif %}
-                        <p>{{ i.hrs_temp }}°</p>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
-
-    <!-- DAILY -->
-    <div>
-        <h2 style="text-align: center">Daily forecast</h2>
-        <div class="list_container">
-            <ul class="forecast_list">
-                {% for i in data_daily %}
-                    <li>
-                        <p>{{ i.day_date }}</p>
-                        {% if i.day_icon|length > 1 %}
-                            <img src="https://developer.accuweather.com/sites/default/files/{{ i.day_icon }}-s.png">
-                        {% else %}
-                            <img src="https://developer.accuweather.com/sites/default/files/0{{ i.day_icon }}-s.png">
-                        {% endif %}
-                        <p>{{ i.day_max }}°/ {{ i.day_min }}</p>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
+        <p>Click or add a place using the sidebar</p>
+        <p><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< dummy!</p>
     </div>
 {% endblock %}

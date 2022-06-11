@@ -13,57 +13,48 @@ from .forms import FormPlace
 API_KEY = "wjIvZkV4FmGKFoW6Zi1BrJzbyufPurjO"
 
 
-# TODO: make clicking on places functional
+# TODO: deleting confirmation
+# TODO: ask user for API key?
 # TODO: design
 
 
 # VIEWS
-
 def index(request):
-    return render(request, 'index.html')
-
-
-def nav_places(request):
-    p = Place.objects.all()
-    dumms = dummy_items()
-
-    place = Place()
-    form = FormPlace
-
-    if request.method == 'POST':
-        form = FormPlace(request.POST)
-        print("POSTING MOMENT")
-        print(form.is_valid())
-        if form.is_valid():
-            post_place(form, place)
-
-    # TODO: uncomment the data gathering functionality
-    # place_key = awh.get_key(API_KEY, "Belgrade")
-
-    # data_current = get_data_current(place_key)
-    # data_daily = get_data_daily(place_key)
-    # data_hourly = get_data_hourly(place_key)
-
-    data_current = {}
-    data_daily = {}
-    data_hourly = {}
-
     return render(
         request, 'index.html', {
-            'places': p,
-            'dummies': dumms,
-            'form': form,
-
-            'data_current': data_current,
-            'data_daily': data_daily,
-            'data_hourly': data_hourly
+            'places': nav_sidebar_list(),
+            'form': nav_sidebar_form(request),
         }
     )
 
 
-def place_delete(request, id):
+def place_data(request, _id):
     try:
-        place = Place.objects.get(pk=id)
+        place_id = Place.objects.get(pk=_id)
+
+        place_key = awh.get_key(API_KEY, place_id.place_name)
+
+        data_current = get_data_current(place_key)
+        data_daily = get_data_daily(place_key)
+        data_hourly = get_data_hourly(place_key)
+
+        return render(
+            request, 'place.html', {
+                'place': place_id,
+                'places': nav_sidebar_list(),
+                'form': nav_sidebar_form(request),
+
+                'data_current': data_current,
+                'data_daily': data_daily,
+                'data_hourly': data_hourly,
+            })
+    except:
+        raise Http404("Place doesn't exist in the database")
+
+
+def place_delete(request, _id):
+    try:
+        place = Place.objects.get(pk=_id)
         place.delete()
         return HttpResponseRedirect(reverse('weather_app:index'))
     except:
@@ -75,7 +66,25 @@ class PlaceDeleteView(DeleteView):
     template_name = 'delete.html'
     success_url = reverse_lazy('weather_app:index')
 
+
 # FUNCTIONS
+def nav_sidebar_list():
+    return Place.objects.all()
+
+
+def nav_sidebar_form(request):
+    form = FormPlace
+
+    if request.method == 'POST':
+        form = FormPlace(request.POST)
+        print("POSTING MOMENT")
+        print(form.is_valid())
+        if form.is_valid():
+            post_place(form, Place())
+
+    return form
+
+
 def post_place(form, place):
     place.place_name = form.cleaned_data['place_name']
     place.place_key = awh.get_key(API_KEY, form.cleaned_data['place_name'])
