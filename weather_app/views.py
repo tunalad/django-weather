@@ -13,7 +13,6 @@ from .forms import FormPlace
 API_KEY = "wjIvZkV4FmGKFoW6Zi1BrJzbyufPurjO"
 
 
-# TODO: deleting confirmation
 # TODO: ask user for API key?
 # TODO: design
 
@@ -53,18 +52,22 @@ def place_data(request, _id):
 
 
 def place_delete(request, _id):
-    try:
-        place = Place.objects.get(pk=_id)
-        place.delete()
-        return HttpResponseRedirect(reverse('weather_app:index'))
-    except:
-        raise Http404("Place doesn't exist in the database")
+    place = Place.objects.get(pk=_id)
+    print(request.method)
+    if request.method == 'POST':
+        try:
+            place.delete()
+            return HttpResponseRedirect(reverse('weather_app:index'))
+        except:
+            raise Http404("Place doesn't exist in the database")
+    else:
+        return render(request, 'delete.html', {'place': place})
 
 
 class PlaceDeleteView(DeleteView):
     model = Place
     template_name = 'delete.html'
-    success_url = reverse_lazy('weather_app:index')
+    success_url = reverse_lazy('weather_app:delete')
 
 
 # FUNCTIONS
