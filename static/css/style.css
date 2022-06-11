@@ -41,9 +41,8 @@ h1{
 .nav_places {
     margin-left: 1rem;
     margin-right: 1rem;
-    position: fixed;
+    position: absolute;
     width: 20rem;
-    height: 98%;
     background-color: #58a2f1;
 }
 

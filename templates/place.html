@@ -5,8 +5,8 @@
 
     <div id="current_content" class="rounded">
         <h1 class="text-capitalize">{{ place.place_name }}</h1>
-        <img src="https://developer.accuweather.com/sites/default/files/{{ i.crt_icon }}-s.png"
-             onerror="this.src='https://developer.accuweather.com/sites/default/files/0{{ i.crt_icon }}-s.png'">
+        <img src="https://developer.accuweather.com/sites/default/files/{{ data_current.crt_icon }}-s.png"
+             onerror="this.onerror=null;this.src='https://developer.accuweather.com/sites/default/files/0{{ i.crt_icon }}-s.png'">
         <p style="font-size: 50px">{{ data_current.crt_temp }}°</p>
         <p>{{ data_current.crt_max }}°/{{ data_current.crt_min }}°</p>
         <p>{{ data_current.crt_text }}</p>
@@ -21,7 +21,7 @@
                     <li>
                         <p>{{ i.hrs_time }}</p>
                         <img src="https://developer.accuweather.com/sites/default/files/{{ i.hrs_icon }}-s.png"
-                        onerror="this.src='https://developer.accuweather.com/sites/default/files/0{{ i.hrs_icon }}-s.png'">
+                        onerror="this.onerror=null; this.src='https://developer.accuweather.com/sites/default/files/0{{ i.hrs_icon }}-s.png'">
                         <p>{{ i.hrs_temp }}°</p>
                     </li>
                 {% endfor %}
@@ -38,7 +38,7 @@
                     <li>
                         <p>{{ i.day_date }}</p>
                         <img src="https://developer.accuweather.com/sites/default/files/{{ i.day_icon }}-s.png"
-                             onerror="this.src='https://developer.accuweather.com/sites/default/files/0{{ i.day_icon }}-s.png'">
+                             onerror="this.onerror=null; this.src='https://developer.accuweather.com/sites/default/files/0{{ i.day_icon }}-s.png'">
                         <p>{{ i.day_max }}°/ {{ i.day_min }}</p>
                     </li>
                 {% endfor %}
