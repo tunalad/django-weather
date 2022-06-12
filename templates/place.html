@@ -6,7 +6,7 @@
     <div id="current_content" class="rounded">
         <h1 class="text-capitalize">{{ place.place_name }}</h1>
         <img src="https://developer.accuweather.com/sites/default/files/{{ data_current.crt_icon }}-s.png"
-             onerror="this.onerror=null;this.src='https://developer.accuweather.com/sites/default/files/0{{ i.crt_icon }}-s.png'">
+             onerror="this.onerror=null;this.src='https://developer.accuweather.com/sites/default/files/0{{ data_current.crt_icon }}-s.png'">
         <p style="font-size: 50px">{{ data_current.crt_temp }}°</p>
         <p>{{ data_current.crt_max }}°/{{ data_current.crt_min }}°</p>
         <p>{{ data_current.crt_text }}</p>

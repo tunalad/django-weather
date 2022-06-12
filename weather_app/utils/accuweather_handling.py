@@ -29,6 +29,10 @@ class current:  # {{{
 
     def response(self):
         """ returns json data for the current conditions """
+        print(
+            "https://dataservice.accuweather.com/currentconditions/v1/" +
+            self.place_key + "?apikey=" +
+            self.api_key + "&details=true&metric=" + str(self.metric).lower())
         return requests.get(
             "https://dataservice.accuweather.com/currentconditions/v1/" +
             self.place_key + "?apikey=" +

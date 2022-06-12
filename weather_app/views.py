@@ -1,6 +1,6 @@
 from django.db import IntegrityError
 from django.http import HttpResponseRedirect, Http404
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import DeleteView
 
@@ -10,12 +10,6 @@ from .utils import accuweather_handling as awh
 from weather_app.models import Place
 from .forms import FormPlace
 
-API_KEY = "dIQZvwuqbI9sE6y3O3k6ukIatkA7G6Vu"
-
-
-# TODO: COLORS, THEY ARE HIDEOUS DUUUDE
-# TODO: ask user for API key?
-
 
 # VIEWS
 def index(request):
@@ -23,32 +17,47 @@ def index(request):
         request, 'index.html', {
             'places': nav_sidebar_list(),
             'form': nav_sidebar_form(request),
+            'api_key': cookie_get(request, 'api_key')
         }
     )
 
 
+def settings(request):
+    api_cookie = cookie_get(request, 'api_key')
+
+    if request.method == 'POST':
+        print(request.POST.get('api_cookie'))
+        req = render(request, 'settings.html', {'api_cookie': api_cookie, 'alert': 'success'})
+        req.set_cookie('api_key', request.POST.get('api_cookie'))
+    else:
+        req = render(request, 'settings.html', {'api_cookie': api_cookie, 'alert': request.GET.get('alert')})
+
+    return req
+
+
 def place_data(request, _id):
-    #try:
-    place_id = Place.objects.get(pk=_id)
+    api_cookie = cookie_get(request, 'api_key')
+    try:
+        place_id = Place.objects.get(pk=_id)
 
-    place_key = awh.get_key(API_KEY, place_id.place_name)
+        place_key = awh.get_key(api_cookie, place_id.place_name)
 
-    data_current = get_data_current(place_key)
-    data_daily = get_data_daily(place_key)
-    data_hourly = get_data_hourly(place_key)
+        data_current = get_data_current(cookie_get(request, 'api_key'), place_key)
+        data_daily = get_data_daily(cookie_get(request, 'api_key'), place_key)
+        data_hourly = get_data_hourly(cookie_get(request, 'api_key'), place_key)
 
-    return render(
-        request, 'place.html', {
-                            'place': place_id,
-                            'places': nav_sidebar_list(),
-                            'form': nav_sidebar_form(request),
+        return render(
+            request, 'place.html', {
+                'place': place_id,
+                'places': nav_sidebar_list(),
+                'form': nav_sidebar_form(request),
 
-                            'data_current': data_current,
-                            'data_daily': data_daily,
-                            'data_hourly': data_hourly,
-                               })
-    #except:
-    #    raise Http404("Place doesn't exist in the database")
+                'data_current': data_current,
+                'data_daily': data_daily,
+                'data_hourly': data_hourly,
+            })
+    except:
+        return redirect('/wttr/settings?alert=fail')
 
 
 def place_delete(request, _id):
@@ -71,11 +80,19 @@ class PlaceDeleteView(DeleteView):
 
 
 # FUNCTIONS
+def cookie_get(request, cookie_name):
+    cookie_api_key = request.COOKIES.get(cookie_name)
+    if cookie_api_key is None:
+        return "Cookie not set"
+    return cookie_api_key
+
+
 def nav_sidebar_list():
     return Place.objects.all()
 
 
 def nav_sidebar_form(request):
+    api_cookie = cookie_get(request, 'api_key')
     form = FormPlace
 
     if request.method == 'POST':
@@ -83,14 +100,14 @@ def nav_sidebar_form(request):
         print("POSTING MOMENT")
         print(form.is_valid())
         if form.is_valid():
-            post_place(form, Place())
+            post_place(api_cookie, form, Place())
 
     return form
 
 
-def post_place(form, place):
+def post_place(api_key, form, place):
     place.place_name = form.cleaned_data['place_name']
-    place.place_key = awh.get_key(API_KEY, form.cleaned_data['place_name'])
+    place.place_key = awh.get_key(api_key, form.cleaned_data['place_name'])
     try:
         print(place.place_key)
         place.save()
@@ -98,10 +115,8 @@ def post_place(form, place):
         print(f"Posting result: {place.place_name} ({place.place_key}) | {e}")
 
 
-def get_data_current(place_key):
-    current_data = awh.current(API_KEY, place_key, True).response()
-    # hourly_data = awh.hourly(API_KEY, place_key, True).response()
-    print(awh.crt_icon(current_data))
+def get_data_current(api_key, place_key):
+    current_data = awh.current(api_key, place_key, True).response()
 
     return {
         'crt_temp': awh.crt_temp(current_data),
@@ -121,8 +136,8 @@ def get_data_current(place_key):
     pass
 
 
-def get_data_daily(place_key):
-    daily_data = awh.daily(API_KEY, place_key, True).response()
+def get_data_daily(api_key, place_key):
+    daily_data = awh.daily(api_key, place_key, True).response()
     daily_array = []
     for i in range(5):
         daily_array.append({
@@ -135,8 +150,8 @@ def get_data_daily(place_key):
     return daily_array
 
 
-def get_data_hourly(place_key):
-    hourly_data = awh.hourly(API_KEY, place_key, True).response()
+def get_data_hourly(api_key, place_key):
+    hourly_data = awh.hourly(api_key, place_key, True).response()
     hrly_array = []
     for i in range(12):
         hrly_array.append({

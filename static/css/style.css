@@ -1,5 +1,6 @@
 body {
     background-color: #eaeaea;
+    background-color: #d6e9e7;
 }
 
 nav form {
@@ -70,6 +71,8 @@ h1{
     overflow-x: auto;
     /*max-width: 30rem;*/
     background-color: rgb(10, 172, 142);
+    background-color: #32867f;
+    background-color: #58a2f1;
 }
 
 .forecast_list li{

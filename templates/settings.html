@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <div style="padding-left:3rem; padding-right:3rem; margin: 0 auto; width: fit-content; text-align: center" class="rounded">
+        <form method="post" action="">{% csrf_token %}
+            <br>
+            <label>API key:</label>
+            <input type="text" name="api_cookie" >
+            <br><br>
+            <button type="submit" class="btn btn-outline-primary">Submit</button>
+        </form>
+        <hr>
+        <p>Get your API key <a href="https://developer.accuweather.com/" target="_blank">here</a></p>
+
+        {% if alert == 'success' %}
+            <div class="alert alert-success" style="margin: 0">
+                API key set.
+            </div>
+        {% elif alert == 'fail' %}
+            <div class="alert alert-danger" style="margin: 0">
+                API key invalid or expired.
+            </div>
+        {% endif %}
+    </div>
+
+
+{% endblock %}
