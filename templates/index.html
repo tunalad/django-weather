@@ -7,9 +7,25 @@
     {% include 'nav_places.html' %}
 
     <div id="current_content" class="rounded border-dark">
-        <h1>Current forecast</h1>
-        <p>Click or add a place using the sidebar</p>
-        <p><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< dummy!</p>
-        <p>The coockie: {{ api_key }}</p>
+        <h1>Django-weather </h1>
+        <p>(powered with django and accuweather & stuff)</p>
+
+        <div style="margin: 0;">
+            <h3>Short how-to:</h3>
+            <ul style="text-align: left;">
+                <li>Get your API key from the <a href="https://developer.accuweather.com/">accuweather</a> </li>
+                (pro tip: use <a href="https://temp-mail.org/en">temp mail</a>)</li>
+                <li>Go to settings and paste it there</li>
+                <li>Insert a place via the sidebar on the left</li>
+                <li>Click on the added place</li>
+                <li>????</li>
+                <li>profit</li>
+            </ul>
+
+        </div>
+       <details>
+           <summary>Current api key</summary>
+           <b>{{ api_key }}</b>
+       </details>
     </div>
 {% endblock %}

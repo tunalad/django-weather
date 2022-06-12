@@ -83,7 +83,7 @@ class PlaceDeleteView(DeleteView):
 def cookie_get(request, cookie_name):
     cookie_api_key = request.COOKIES.get(cookie_name)
     if cookie_api_key is None:
-        return "Cookie not set"
+        return "API not set"
     return cookie_api_key
 
 
